@@ -1,7 +1,7 @@
 #include "main.h"
 /**
- * cap_string - capitalizes all words of a sentence
- * @s: string to use
+ * cap_string - check the code for Holberton School students.
+ * @str: String for capitalization modification
  * Return: the resultant string
  */
 char *cap_string(char *str)
