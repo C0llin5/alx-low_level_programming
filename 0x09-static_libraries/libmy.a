@@ -1,0 +1,1433 @@
+!<arch>
+//                                              428       `
+101-print_number.c/
+103-infinite_add.c/
+104-print_buffer.c/
+5-string_toupper.c/
+100-set_string.c/
+7-print_chessboard.c/
+8-print_diagsums.c/
+0-puts_recursion.c/
+100-is_palindrome.c/
+1-print_rev_recursion.c/
+2-strlen_recursion.c/
+4-pow_recursion.c/
+5-sqrt_recursion.c/
+6-is_prime_number.c/
+100-prime_factor.c/
+10-print_triangle.c/
+3-print_numbers.c/
+4-print_most_numbers.c/
+5-more_numbers.c/
+7-print_diagonal.c/
+8-print_square.c/
+0-strcat.c/     0           0     0     644     354       `
+#include "main.h"
+/**
+* _strcat - concatinate 2 strings
+* @dest: resultant string
+* @src: source string to be appended to the @dest string
+* Return: a string
+*/
+char *_strcat(char *dest, char *src)
+{
+	int i = 0, j = 0;
+
+	while (dest[i] != '\0')
+		i++;
+
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+
+	dest[i] = '\0';
+	return (dest);
+}
+
+100-rot13.c/    0           0     0     644     500       `
+#include "main.h"
+/**
+ * rot13 - encoding a string using rot13
+ * @str: the string to be encoded
+ * Return: the encoded string
+ */
+char *rot13(char *str)
+{
+	char regALPHA[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char altALPHA[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	int i, j;
+
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		for (j = 0; regALPHA[j] != '\0'; j++)
+		{
+			if (str[i] == regALPHA[j])
+			{
+				str[i] = altALPHA[j];
+				break;
+			}
+		}
+	}
+	return (str);
+}
+/0              0           0     0     644     506       `
+#include "main.h"
+
+/**
+* print_number - function that prints an integer
+* @n: input value to check
+* Return: nothing
+*/
+void print_number(int n)
+{
+	unsigned int num, num2;
+	int i;
+	int aux = 1;
+
+	if (n < 0)
+	{
+		n = n * -1;
+		_putchar('-');
+	}
+	num = n;
+	num2 = num;
+	if (num > 9)
+	{
+		while (num >= 10)
+		{
+			aux = aux * 10;
+			num = num / 10;
+		}
+		_putchar((num2 / aux) + '0');
+		aux = aux / 10;
+		for (i = aux; i >= 1; i = i / 10)
+			_putchar((num2 / i) % 10 + '0');
+	}
+	else
+		_putchar(num + '0');
+}
+102-magic.c/    0           0     0     644     423       `
+#include <stdio.h>
+
+int main(void)
+{
+  int n;
+  int a[5];
+  int *p;
+
+  a[2] = 1024;
+  p = &n;
+  /*
+  * write your line of code here...
+  * Remember:
+  * - you are not allowed to use a
+  * - you are not allowed to modify p
+  * - only one statement
+  * - you are not allowed to code anything else than this line of code
+  */
+  *(p + 5) = 98;
+  /* ...so that this prints 98\n */
+  printf("a[2] = %d\n", a[2]);
+  return (0);
+}
+
+/20             0           0     0     644     911       `
+#include "main.h"
+#include <stdio.h>
+/**
+ * print_line - prints a s bytes of a buffer
+ * @c: buffer to print
+ * @s: bytes of buffer to print
+ * @l: line of buffer to print
+ *
+ * Return: void
+ */
+void print_line(char *c, int s, int l)
+{
+	int j, k;
+
+	for (j = 0; j <= 9; j++)
+	{
+		if (j <= s)
+			printf("%02x", c[l * 10 + j]);
+		else
+			printf("  ");
+		if (j % 2)
+			putchar(' ');
+	}
+	for (k = 0; k <= s; k++)
+	{
+		if (c[l * 10 + k] > 31 && c[l * 10 + k] < 127)
+			putchar(c[l * 10 + k]);
+		else
+			putchar('.');
+	}
+}
+/**
+ * print_buffer - prints a buffer
+ * @b: buffer to print
+ * @size: size of buffer
+ *
+ * Return: void
+ */
+void print_buffer(char *b, int size)
+{
+	int i;
+
+	for (i = 0; i <= (size - 1) / 10 && size; i++)
+	{
+		printf("%08x: ", i * 10);
+		if (i < size / 10)
+		{
+			print_line(b, 9, i);
+		}
+		else
+		{
+			print_line(b, size % 10 - 1, i);
+		}
+		putchar('\n');
+	}
+	if (size == 0)
+		putchar('\n');
+}
+
+/40             0           0     0     644     715       `
+#include <stdio.h>
+/**
+ * print_buffer - Print the entire buffer w/ certain conditions
+ * @b: The buffer to print
+ * @size: The size of the buffer
+ */
+void print_buffer(char *b, int size)
+{
+	int i, j;
+
+	i = 0;
+	if (size <= 0)
+		putchar('\n');
+	else
+	{
+		while (i < size)
+		{
+			printf("%08x: ", i);
+			j = 0;
+			while (j < 10)
+			{
+				if (j % 2 == 0 && j > 0)
+					printf(" ");
+				if (j + i > size - 1)
+					printf("  ");
+				else
+					printf("%.2x", b[j + i]);
+				j++;
+			}
+			putchar(' ');
+			j = 0;
+			while (j < 10)
+			{
+				if (j + i > size - 1)
+					break;
+				if (b[j + i] >= ' ' && b[j + i] <= '~')
+					putchar(b[j + i]);
+				else
+					putchar('.');
+				j++;
+			}
+			putchar('\n');
+			i += 10;
+		}
+	}
+}
+
+1-strncat.c/    0           0     0     644     525       `
+#include "main.h"
+/**
+* _strncat - concatenates 2 strings using at most n number of bytes from src
+* @dest: resultant string to be appended
+* @src: soursce string to be appended
+* @n: number of bytes of the source string to be appended to resultant string
+* Return: the resulting string dest
+*/
+char *_strncat(char *dest, char *src, int n)
+{
+	int i = 0, j = 0;
+
+	while (dest[i] != '\0')
+		i++;
+
+	while (src[j] != '\0' && n > j)
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+
+	if (n > 0)
+	{
+		dest[i] = '\0';
+	}
+
+	return (dest);
+}
+
+
+2-strncpy.c/    0           0     0     644     470       `
+#include "main.h"
+/**
+ * _strncpy - copies n number of bytes from source string into resultant string
+ * @dest: The buffer storing the string copy.
+ * @src: source string.
+ * @n: number of bytes to be copied
+ * Return: the resulting string
+ */
+char *_strncpy(char *dest, char *src, int n)
+{
+	int i = 0, srcLen = 0;
+
+	while (src[i++])
+		srcLen++;
+
+	for (i = 0; src[i] && i < n; i++)
+		dest[i] = src[i];
+
+	for (i = srcLen; i < n; i++)
+		dest[i] = '\0';
+
+	return (dest);
+}
+3-strcmp.c/     0           0     0     644     399       `
+#include "main.h"
+/**
+ * _strcmp - compares 2 strings.
+ * @s1: first string
+ * @s2: second string
+ * Return: an integer - if str1 < str2, negative difference
+ *  - if s1 == s2, 0
+ *   - if s1 > s2, positive difference
+ */
+int _strcmp(char *s1, char *s2)
+{
+	int i = 0, cmpStat = 0;
+
+	while (s1[i] != '\0' && s2[i] != '\0' && cmpStat == 0)
+	{
+		cmpStat = s1[i] - s2[i];
+		i++;
+	}
+	return (cmpStat);
+}
+
+4-rev_array.c/  0           0     0     644     307       `
+#include "main.h"
+/**
+* reverse_array - reverses the content of an array
+* @a: array of integers
+* @n: number of elements in the array
+* Return: 0 (success)
+*/
+void reverse_array(int *a, int n)
+{
+	int i, j, k;
+
+	j = n - 1;
+	for (i = 0; i < n / 2; i++)
+	{
+		k = a[i];
+		a[i] = a[j];
+		a[j] = k;
+		j--;
+	}
+}
+
+
+/60             0           0     0     644     307       `
+#include "main.h"
+/**
+ * string_toupper - converts lowercase letters to uppercase
+ * @word: string to be converted
+ * Return: the converted string
+ */
+char *string_toupper(char *word)
+{
+	int i = 0;
+
+	while (word[i])
+	{
+		if (word[i] >= 'a' && word[i] <= 'z')
+			word[i] -= 32;
+
+		i++;
+	}
+
+	return (word);
+}
+
+6-cap_string.c/ 0           0     0     644     796       `
+#include "main.h"
+/**
+ * cap_string - check the code for Holberton School students.
+ * @str: String for capitalization modification
+ * Return: the resultant string
+ */
+char *cap_string(char *str)
+{
+	int i, j, counter;
+
+	i = counter = 0;
+	while (str[i] != '\0')
+		i++;
+	for (j = 0; j < i; j++)
+	{
+		if (counter == 0)
+		{
+			if (str[j] >= 'a' && str[j] <= 'z')
+				str[j] = str[j] - 32;
+			else
+				counter++;
+		}
+		if (str[j] == '!' || str[j] == '"' || str[j] == '(' || str[j] == ')')
+			counter = 0;
+		else if (str[j] == ',' || str[j] == '.' || str[j] == '{' || str[j] == '}')
+			counter = 0;
+		else if (str[j] == ';' || str[j] == '?' || str[j] == '\n')
+			counter = 0;
+		else if (str[j] == '\t')
+			counter = 0;
+		else if (str[j] == ' ')
+			counter = 0;
+		else
+			counter++;
+	}
+	return (str);
+}
+7-leet.c/       0           0     0     644     463       `
+#include "main.h"
+/**
+ *leet - encodes a string into 1337.
+ *@s: string to encode.
+ *Return: the encoded string.
+ */
+char *leet(char *s)
+{
+	int i = 0, j = 0;
+	char array_leet[] = {'4', '3', '1', '0', '7'};
+	char array_up[] = {'A', 'E', 'L', 'O', 'T'};
+	char array_low[] = {'a', 'e', 'l', 'o', 't'};
+
+	while (s[i] != '\0')
+	{
+		for (j = 0; j < 5; j++)
+		{
+			if (s[i] == array_low[j] || s[i] == array_up[j])
+				s[i] = array_leet[j];
+		}
+		i++;
+	}
+	return (s);
+}
+
+
+0-memset.c/     0           0     0     644     330       `
+#include "main.h"
+/**
+ * _memset - fills memory with a constant byte
+ * @s: pointer to memory
+ * @b: byte to fill with
+ * @n: number of bytes to be filled
+ * Return: returns pointer to memory area s
+ */
+char *_memset(char *s, char b, unsigned int n)
+{
+	unsigned int i = 0;
+
+	while (i < n)
+	{
+		s[i] = b;
+		i++;
+	}
+	return (s);
+
+}
+/80             0           0     0     644     201       `
+#include "main.h"
+/**
+ * set_string - sets the value of a pointer to a char
+ * @s: pointer to pointer
+ * @to: pointer to char
+ * Return: no return
+ */
+void set_string(char **s, char *to)
+{
+	*s = to;
+}
+
+1-memcpy.c/     0           0     0     644     339       `
+#include "main.h"
+/**
+ * _memcpy - copies memory data
+ * @dest: buffer to be copied to
+ * @src: buffer to be copied from
+ * @n: number of bytes to be copied
+ * Return: returns pointer to dest
+ */
+char *_memcpy(char *dest, char *src, unsigned int n)
+{
+	unsigned int i = 0;
+
+	while (i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return (dest);
+}
+
+2-strchr.c/     0           0     0     644     390       `
+#include "main.h"
+#include <stdio.h>
+/**
+ * _strchr - locates character in a string
+ * @s: string to be checked
+ * @c: character to be located
+ * Return: returns pointer to first occurence of character
+ * or NULL if the character is not found
+ */
+char *_strchr(char *s, char c)
+{
+	while (*s)
+	{
+		if (*s == c)
+		{
+			return (s);
+		}
+		s++;
+	}
+	if (!c)
+	{
+		return (s);
+	}
+	return (NULL);
+}
+3-strspn.c/     0           0     0     644     447       `
+#include "main.h"
+/**
+ * _strspn - gets length of a prefix substring
+ * @s: string
+ * @accept: substring
+ * Return: returns number of bytes
+ */
+unsigned int _strspn(char *s, char *accept)
+{
+	int i, j, match = 0;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] != ' ')
+		{
+			j = 0;
+			while (accept[j] != '\0')
+			{
+				if (s[i] == accept[j])
+				{
+					match++;
+				}
+				j++;
+			}
+		}
+		else
+		{
+			return (match);
+		}
+		i++;
+	}
+	return (match);
+}
+
+4-strpbrk.c/    0           0     0     644     498       `
+#include "main.h"
+#include <stdio.h>
+/**
+ * _strpbrk - locates the first occurence in the string s of any of the
+ * bytes in the string accept
+ * @s: string to be searched
+ * @accept: substring
+ * Return: returns pointer to the byte in s that matches one of the bytes in
+ * accept or NULL if no such byte is found
+ */
+char *_strpbrk(char *s, char *accept)
+{
+	int i;
+
+	while (*s)
+	{
+		for (i = 0; accept[i]; i++)
+		{
+			if (*s == accept[i])
+			{
+				return (s);
+			}
+		}
+		s++;
+	}
+	return ('\0');
+}
+5-strstr.c/     0           0     0     644     544       `
+#include <stdio.h>
+#include <stdio.h>
+/**
+ * _strstr - locates a substring
+ * @haystack: string to be checked
+ * @needle: string be located
+ * Return: returns pointer to beginning of substring located
+ * or NULL if the substring is not found
+ */
+char *_strstr(char *haystack, char *needle)
+{
+	int i;
+
+	if (*needle == '\0')
+		return (haystack);
+	for (i = 0; *(haystack + i) != '\0'; i++)
+	{
+		if (*(haystack + i) == *needle)
+		{
+			char *ptr = _strstr(haystack + i + 1, needle + 1);
+
+			return ((ptr) ? ptr - 1 : NULL);
+		}
+	}
+	return (NULL);
+}
+/98             0           0     0     644     302       `
+#include "main.h"
+/**
+ * print_chessboard - prints the chessboard
+ * @a: board to be printed
+ * Return: no return
+ */
+void print_chessboard(char (*a)[8])
+{
+	int i, j;
+
+	for (i = 0; i < 8; i++)
+	{
+		for (j = 0; j < 8; j++)
+		{
+			_putchar(a[i][j]);
+			if (j == 7)
+			{
+				_putchar('\n');
+			}
+		}
+	}
+}
+/120            0           0     0     644     447       `
+#include <stdio.h>
+/**
+ * print_diagsums - prints sum of the diagonals of a square matrix
+ * @a: matrix array
+ * @size: size of columns and rows
+ * Return: no return
+ */
+void print_diagsums(int *a, int size)
+{
+	int i, s = 0, sum = 0, sum1 = 0;
+
+	s = (size * size) - 1;
+	for (i = 0; i <= s; i = i + (size + 1))
+	{
+		sum = sum + a[i];
+	}
+	for (i = (size - 1); i < s; i = i + (size - 1))
+	{
+		sum1 = sum1 + a[i];
+	}
+	printf("%d, %d\n", sum, sum1);
+}
+
+/140            0           0     0     644     277       `
+#include "main.h"
+
+/**
+ * _puts_recursion - Print the given string w/ _putchar recursively
+ * @s: The given string
+ * Return: 0 if succesful exit
+ */
+void _puts_recursion(char *s)
+{
+	if (*s == '\0')
+	{
+		_putchar('\n');
+		return;
+	}
+	_putchar(*s);
+	s++;
+	_puts_recursion(s);
+}
+
+/160            0           0     0     644     869       `
+#include "main.h"
+/**
+ * _strlen_recursion - returns the length of a string.
+ * @s: the string to count
+ * Return: length of the string
+ */
+int _strlen_recursion(char *s)
+{
+	if (*s)
+	{
+		s++;
+		return (1 + _strlen_recursion(s));
+	}
+	return (0);
+}
+/**
+ * checker - helper function for is_palindrome
+ * @str: the string
+ * @len: length of string
+ * @count: counter of recursion
+ * Return: 1 if string is a palindrome, 0 if it is not.
+ */
+int checker(char *str, int len, int count)
+{
+	if (count >= len)
+		return (1);
+	if (str[len] == str[count])
+		return (checker(str, len - 1, count + 1));
+	return (0);
+}
+/**
+ * is_palindrome - checks if the string is a palindrome
+ * @s: the string to check
+ * Return: 1 if string is a palindrome, 0 if it is not.
+ */
+int is_palindrome(char *s)
+{
+	int len = _strlen_recursion(s);
+	int count = 0;
+
+	return (checker(s, len - 1, count));
+}
+
+101-wildcmp.c/  0           0     0     644     599       `
+#include "main.h"
+
+
+/**
+ * wildcmp - compares two strings and returns 1 if the strings
+ * can be considered identical, otherwise return 0.
+ * @s1: string to compare to
+ * @s2: string with wild character
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int wildcmp(char *s1, char *s2)
+{
+	if (*s1 == '\0' && *s2 == '\0')
+		return (1);
+	if (*s1 == *s2)
+		return (wildcmp(s1 + 1, s2 + 1));
+	if (*s2 == '*')
+	{
+		if (*s2 == '*' && *(s2 + 1) != '\0' && *s1 == '\0')
+			return (0);
+		if (wildcmp(s1, s2 + 1) || wildcmp(s1 + 1, s2))
+			return (1);
+	}
+	return (0);
+}
+
+/181            0           0     0     644     228       `
+#include "main.h"
+/**
+ * _print_rev_recursion - prints a string in reverse
+ * @s: string
+ * Return: void
+ */
+void _print_rev_recursion(char *s)
+{
+	if (*s == '\0')
+		return;
+	s++;
+	_print_rev_recursion(s);
+	s--;
+	_putchar(*s);
+}
+/206            0           0     0     644     233       `
+#include "main.h"
+/**
+ * _strlen_recursion - return lenght of string
+ * @s: the string
+ * Return: the lenght of the string
+ */
+int _strlen_recursion(char *s)
+{
+	if (*s == '\0')
+		return (0);
+	return (1 + _strlen_recursion(s + 1));
+}
+
+3-factorial.c/  0           0     0     644     245       `
+#include "main.h"
+/**
+ * factorial - returns the factorial of a number
+ * @n: number
+ * Return: factorial
+ */
+int factorial(int n)
+{
+	if (n < 0)
+	{
+		return (-1);
+	}
+	else if (n == 0)
+	{
+		return (1);
+	}
+	else
+		return (n * factorial(n - 1));
+}
+
+/228            0           0     0     644     270       `
+#include "main.h"
+
+/**
+ *_pow_recursion - returns the value of x raised to power of y
+ *@x: number (base)
+ *@y: exponent
+ *Return: x^y
+ */
+int _pow_recursion(int x, int y)
+{
+	if (y < 0)
+		return (-1);
+	if (y == 0)
+		return (1);
+	return (x * _pow_recursion(x, y - 1));
+}
+/247            0           0     0     644     490       `
+#include "main.h"
+/**
+ * tester - tests the input
+ * @n: number compared
+ * @base: base to check
+ * Return: natural square root of a number
+ */
+int tester(int n, int base)
+{
+	if (n * n == base)
+		return (n);
+	if (n * n > base)
+		return (-1);
+	return (tester(n + 1, base));
+}
+/**
+ * _sqrt_recursion - return the natural square root of a number
+ * @n: number to check for square roots.
+ * Return: the natural square root of number n
+ */
+int _sqrt_recursion(int n)
+{
+	return (tester(1, n));
+}
+/267            0           0     0     644     581       `
+#include "main.h"
+/**
+ * checker - checks recursively the input from is_prime_number
+ * @n: iterator
+ * @base: base number to check
+ * Return: 1 if n is a prime, else return 0 otherwise.
+ */
+int checker(int n, int base)
+{
+	if (base % n == 0 || base < 2)
+		return (0);
+	else if (n == base - 1)
+		return (1);
+	else if (base > n)
+		return (checker(n + 1, base));
+	return (1);
+}
+/**
+ * is_prime_number - checks if the number is a prime number
+ * @n: the number to check
+ * Return: 1 if n is a prime, else return 0 otherwise.
+ */
+int is_prime_number(int n)
+{
+	return (checker(2, n));
+}
+
+0-reset_to_98.c/0           0     0     644     237       `
+#include "main.h"
+
+/**
+ * reset_to_98 - takes a pointer to an int as parameter
+ *  and updates the value it points to to 98.
+ *  @n: this is the pointer argument passed in.
+ *
+ *  Return: void.
+ */
+void reset_to_98(int *n)
+{
+	*n = 98;
+}
+
+100-atoi.c/     0           0     0     644     546       `
+#include "main.h"
+/**
+ * _atoi - convert a string to an integer.
+ * @s: the string to be converted.
+ *
+ * Return: int.
+ */
+int _atoi(char *s)
+{
+	int len, i = 0, FLAG = 0, d = 0, n = 0, digit;
+
+	for (len = 0; s[len] != '\0'; len++)
+		;
+	while (i < len && FLAG == 0)
+	{
+		if (s[i] == '-')
+			++d;
+		if (s[i] >= 48 && s[i] <= 57)
+		{
+			digit = s[i] - '0';
+			if (d % 2)
+				digit = -digit;
+			n = n * 10 + digit;
+			FLAG = 1;
+			if (s[i + 1] < 48 || s[i + 1] > 57)
+				break;
+			FLAG = 0;
+		}
+		i++;
+	}
+	if (FLAG == 0)
+		return (0);
+	return (n);
+}
+101-keygen.c/   0           0     0     644     475       `
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+/**
+ * main - generates random valid passwords for the program 101-crackme.
+ *
+ * Return: Always 0
+ */
+int main(void)
+{
+	int pass[100];
+	int i, sum, n;
+
+	sum = 0;
+	srand(time(NULL));
+	for (i = 0; i < 100; i++)
+	{
+		pass[i] = rand() % 78;
+		sum += (pass[i] + '0');
+		putchar(pass[i] + '0');
+		if ((2772 - sum) - '0' < 78)
+		{
+			n = 2772 - sum - '0';
+			sum += n;
+			putchar(n + '0');
+			break;
+		}
+	}
+	return (0);
+}
+
+
+1-swap.c/       0           0     0     644     208       `
+#include "main.h"
+/**
+ * swap_int - swaps the values of two integers.
+ * @a: first integer
+ * @b: second integer
+ *
+ * Return: void.
+ */
+void swap_int(int *a, int *b)
+{
+	int c;
+
+	c = *b;
+	*b = *a;
+	*a = c;
+}
+2-strlen.c/     0           0     0     644     207       `
+#include "main.h"
+/**
+ * _strlen - returns the length of a string.
+ * @c: the string to be operated on.
+ *
+ * Return: int
+ */
+int _strlen(char *c)
+{
+	int i = 0;
+
+	while (c[i] != '\0')
+		i++;
+	return (i);
+}
+
+
+3-puts.c/       0           0     0     644     248       `
+#include "main.h"
+/**
+ * _puts - prints a string to the standard output.
+ * @str: the string to be printed.
+ *
+ * Return: nothing.
+ */
+void _puts(char *str)
+{
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		_putchar(str[i]);
+		i++;
+	}
+	_putchar('\n');
+}
+4-print_rev.c/  0           0     0     644     285       `
+#include "main.h"
+/**
+ * print_rev - prints a string, in reverse, followed by a new line.
+ * @s: the string to be manipulated.
+ *
+ * Return: nothing
+ */
+void print_rev(char *s)
+{
+	int i = 0;
+
+	while (s[i] != '\0')
+		i++;
+	for (i -= 1; i >= 0; i--)
+		_putchar(s[i]);
+	_putchar('\n');
+}
+
+5-rev_string.c/ 0           0     0     644     301       `
+#include "main.h"
+/**
+ * rev_string - reverses a string.
+ * @s: the string to be reversed.
+ *
+ * Return: nothing.
+ */
+void rev_string(char *s)
+{
+	int i = 0, j;
+	char tmp;
+
+	for (; s[i] != '\0'; i++)
+		;
+	for (j = 0; j < (i / 2); j++)
+	{
+		tmp = s[j];
+		s[j] = s[i - j - 1];
+		s[i - j - 1] = tmp;
+	}
+}
+
+6-puts2.c/      0           0     0     644     307       `
+#include "main.h"
+/**
+ * puts2 - prints every other character starting with the first
+ * character, followed by a new line.
+ * @str: the string to manipulate.
+ *
+ * Return: nothing.
+ */
+void puts2(char *str)
+{
+	int i;
+
+	for (i = 0; str[i] != '\0'; i++)
+		if (!(i % 2))
+			_putchar(str[i]);
+	_putchar(10);
+}
+
+7-puts_half.c/  0           0     0     644     403       `
+#include "main.h"
+/**
+ * puts_half - prints half of a string, followed by a new line.
+ * @str: the string to be manipulated.
+ *
+ * Return: nothing.
+ */
+void puts_half(char *str)
+{
+	int i = 0, j;
+
+	for (; str[i] != '\0'; i++)
+		;
+	if (i % 2)
+	{
+		j = (i - 1) / 2;
+		for (; j < (i - 1); j++)
+			_putchar(str[j + 1]);
+	}
+	else
+	{
+		j = i / 2;
+		for (; j < i; j++)
+			_putchar(str[j]);
+	}
+	_putchar(10);
+}
+
+
+8-print_array.c/0           0     0     644     443       `
+#include "main.h"
+#include <stdio.h>
+
+/**
+ * print_array - prints n elements of an array of integers,
+ * followed by a new line.
+ * @a: the array to be printed.
+ * @n: the number of elements of the array to be printed.
+ *
+ * Return: nothing.
+ */
+void print_array(int *a, int n)
+{
+	int i = 0, j = 0;
+
+	for (; a[j] != '\0'; j++)
+		;
+	for (; i < n; i++)
+	{
+		if (i == 0)
+			printf("%d", a[i]);
+		else
+			printf(", %d", a[i]);
+	}
+	printf("\n");
+}
+
+9-strcpy.c/     0           0     0     644     428       `
+#include "main.h"
+/**
+ * _strcpy - copies a string pointed to by src,
+ * including the \0 character, to the buffer
+ * pointed to by dest.
+ * @dest: the copied string
+ * @src: the pointer to the string to be copied
+ *
+ * Return: the pointer to dest
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int len = 0, i;
+
+	for (; src[len] != '\0'; len++)
+		;
+	for (i = 0; i < len; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+	return (dest);
+}
+0-isupper.c/    0           0     0     644     223       `
+#include "main.h"
+/**
+* _isupper - function hat checks for uppercase character.
+* @c: input value to check
+* Return: int.
+*/
+int _isupper(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+
+/288            0           0     0     644     368       `
+#include <stdio.h>
+
+/**
+* main - finds and prints te largest prime factor of the number
+* 612852475143
+* Return: 0
+*/
+int main(void)
+{
+	long num = 612852475143;
+	long divisor = 2;
+	long larg_prim = 0;
+
+	while (num != 1)
+	{
+		if (num % divisor == 0)
+		{
+			num = num / divisor;
+			larg_prim = divisor;
+		}
+		divisor += 1;
+	}
+	printf("%ld\n", larg_prim);
+	return (0);
+}
+/308            0           0     0     644     446       `
+#include "main.h"
+
+/**
+* print_triangle - function that prints a triangle, followed by new line
+* @size: Size of triangle
+* Return: noting
+*/
+void print_triangle(int size)
+{
+	int row, col, aux;
+
+	if (size > 0)
+	{
+		for (row = 0; row < size; row++)
+		{
+			for (col = 0; col < size; col++)
+			{
+				aux = (size - row) - 1;
+				if (col < aux)
+					_putchar(' ');
+				else
+					_putchar(35);
+			}
+			_putchar('\n');
+		}
+	}
+	else
+		_putchar('\n');
+}
+
+1-isdigit.c/    0           0     0     644     235       `
+#include "main.h"
+/**
+* _isdigit - Checks whether parameter is A digit or not
+*
+* @c: Character to be checked
+*
+* Return: Always 0 or 1
+*/
+int _isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+
+2-mul.c/        0           0     0     644     165       `
+#include "main.h"
+
+/**
+* mul - multiplies two integers
+* @a: first number
+* @b: second number
+* Return: Always 0 or 1
+*/
+int mul(int a, int b)
+{
+	return (a * b);
+}
+
+
+/329            0           0     0     644     198       `
+#include "main.h"
+/**
+* print_numbers - print numbers from 0 to 9
+*
+* Return: Always 0 or 1
+*/
+void print_numbers(void)
+{
+	int c;
+
+	for (c = 48; c < 58; c++)
+	{
+		_putchar(c);
+	}
+	_putchar('\n');
+}
+/348            0           0     0     644     256       `
+#include "main.h"
+/**
+* print_most_numbers - print numbrs 0 to 9 except 2 and 4
+* Return: values
+*/
+void print_most_numbers(void)
+{
+	int ch = 0;
+
+	while (ch < 10)
+	{
+		if (ch != 2 && ch != 4)
+		{
+			_putchar(ch + '0');
+		}
+		ch += 1;
+	}
+	_putchar('\n');
+}
+/372            0           0     0     644     323       `
+#include "main.h"
+
+/**
+* more_numbers - prints 10 times the numbers from 0 to 14
+*
+* Return: Always 0
+*/
+void more_numbers(void)
+{
+	int i, ch;
+
+	for (i = 0; i < 10; i++)
+	{
+		for (ch = 0; ch < 15; ch++)
+		{
+			if (ch >= 10)
+			{
+				_putchar((ch / 10) + '0');
+			}
+			_putchar((ch % 10) + '0');
+		}
+		_putchar('\n');
+	}
+}
+
+
+6-print_line.c/ 0           0     0     644     267       `
+#include "main.h"
+/**
+* print_line - prints a straight line in the terminal
+*
+* @n: Character
+* Return: 0 or 1
+*/
+void print_line(int n)
+{
+	int i = 0;
+
+	while (i < n)
+	{
+		if (n > 0)
+		{
+			_putchar(95);
+			i += 1;
+		}
+		else
+			_putchar('\n');
+	}
+	_putchar('\n');
+}
+
+/390            0           0     0     644     385       `
+#include "main.h"
+
+/**
+* print_diagonal - function thta draws a diagonal line on the terminal
+* @n: input value to check
+* Return: Always 0.
+*/
+void print_diagonal(int n)
+{
+	int i = 0;
+	int j = 0;
+
+	while (i < n)
+	{
+		while (j <= i)
+		{
+			if (j != i)
+				_putchar(' ');
+			else
+				_putchar(92);
+			j += 1;
+		}
+		_putchar('\n');
+		i += 1;
+		j = 0;
+	}
+	if (n <= 0)
+		_putchar('\n');
+}
+
+/410            0           0     0     644     322       `
+#include "main.h"
+
+/**
+* print_square - prints a square
+* @size: size of square
+* Return: nothing.
+*/
+void print_square(int size)
+{
+	int col, row;
+
+	if (size > 0)
+	{
+		for (row = 0; row < size; row++)
+		{
+			for (col = 0; col < size; col++)
+			{
+				_putchar(35);
+			}
+			_putchar('\n');
+		}
+	}
+	else
+		_putchar('\n');
+}
+
+9-fizz_buzz.c/  0           0     0     644     511       `
+#include <stdio.h>
+
+/**
+* main - prints numbers from 1 to 100, but for multiples
+*  of three print fizz and multiples of 5 print buzz.
+*  Return: Always 0.
+*/
+int main(void)
+{
+	int num;
+
+	for (num = 1; num <= 100; num++)
+	{
+		if (num % 3 == 0 && num % 5 == 0)
+			printf("FizzBuzz ");
+		else if (num % 3 == 0 && num % 5 != 0)
+			printf("Fizz ");
+		else if (num == 100)
+			printf("Buzz");
+		else if (num % 5 == 0 && num % 3 != 0)
+			printf("Buzz ");
+		else
+			printf("%d ", num);
+	}
+	printf("\n");
+	return (0);
+}
+
